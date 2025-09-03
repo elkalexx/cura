@@ -2,7 +2,7 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
@@ -19,7 +19,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BadgeEuro, ChartSpline, ChevronDown, CircleUser, LayoutDashboard, MailOpen, Menu, Settings } from 'lucide-vue-next';
+import { ChevronDown, MailOpen, Menu } from 'lucide-vue-next';
 import type { Component } from 'vue';
 import { computed, ref } from 'vue';
 
@@ -156,7 +156,7 @@ const mainNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                    <AppLogo />
+                <AppLogo />
 
                 <Separator orientation="vertical" class="ml-3" />
 

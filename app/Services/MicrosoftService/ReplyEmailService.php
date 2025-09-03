@@ -19,9 +19,7 @@ class ReplyEmailService
 {
     public function __construct(
         private GraphServiceClientFactory $graphServiceClientFactory
-    )
-    {
-    }
+    ) {}
 
     public function replyToAllEmail(array $data, Message $message)
     {
@@ -49,14 +47,14 @@ class ReplyEmailService
                 ->post($body);
         } catch (ApiException $e) {
             /** @phpstan-ignore-next-line */
-            throw new Exception('Something went wrong replying to the email: ' . var_export($e->getError(), true));
+            throw new Exception('Something went wrong replying to the email: '.var_export($e->getError(), true));
         } catch (Exception $e) {
-            throw new Exception('Something went wrong replying to the email: ' . var_export($e->getMessage(), true));
+            throw new Exception('Something went wrong replying to the email: '.var_export($e->getMessage(), true));
         }
 
         $this->updateMessageAndConversation($message, $graph, $message->conversation_id);
 
-        //@todo fix this to the proper E-Mail
+        // @todo fix this to the proper E-Mail
         $sender = ContactService::findOrCreate('');
 
         $participants = $message->envelope()->with('contact')->get();
@@ -125,9 +123,9 @@ class ReplyEmailService
                 ->wait();
         } catch (ApiException $e) {
             /** @phpstan-ignore-next-line */
-            throw new Exception("Something went wrong getting the outlook message: " . var_export($e->getError()), true,);
+            throw new Exception('Something went wrong getting the outlook message: '.var_export($e->getError()), true);
         } catch (Exception $e) {
-            throw new Exception('Something went wrong getting the outlook message: ' . var_export($e->getMessage(), true));
+            throw new Exception('Something went wrong getting the outlook message: '.var_export($e->getMessage(), true));
         }
 
         $writer = (new JsonSerializationWriterFactory)

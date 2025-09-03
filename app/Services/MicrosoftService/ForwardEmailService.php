@@ -22,16 +22,16 @@ class ForwardEmailService
         $recipientCollection = [];
 
         foreach ($toRecipients as $email) {
-            $emailAddress = new EmailAddress();
+            $emailAddress = new EmailAddress;
             $emailAddress->setAddress($email);
 
-            $recipient = new Recipient();
+            $recipient = new Recipient;
             $recipient->setEmailAddress($emailAddress);
 
             $recipientCollection[] = $recipient;
         }
 
-        $body = new ForwardPostRequestBody();
+        $body = new ForwardPostRequestBody;
         $body->setToRecipients($recipientCollection);
 
         try {
@@ -42,9 +42,9 @@ class ForwardEmailService
                 ->post($body);
         } catch (ApiException $e) {
             /** @phpstan-ignore-next-line */
-            throw new Exception('Something went wrong forwarding the email (API): ' . var_export($e->getError(), true));
+            throw new Exception('Something went wrong forwarding the email (API): '.var_export($e->getError(), true));
         } catch (Exception $e) {
-            throw new Exception('Something went wrong forwarding the email: ' . var_export($e->getMessage(), true));
+            throw new Exception('Something went wrong forwarding the email: '.var_export($e->getMessage(), true));
         }
     }
 }

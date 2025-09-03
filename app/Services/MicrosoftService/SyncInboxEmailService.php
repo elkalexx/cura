@@ -17,9 +17,7 @@ class SyncInboxEmailService
 {
     public function __construct(
         private GraphServiceClientFactory $graphServiceClientFactory
-    )
-    {
-    }
+    ) {}
 
     public function syncInboxEmails(): void
     {
@@ -49,10 +47,10 @@ class SyncInboxEmailService
         } catch (ApiException $e) {
             /** @phpstan-ignore-next-line */
             Log::info('heey');
-            throw new Exception('Something went wrong getting the inbox messages: ' . var_export($e->getError(), true));
+            throw new Exception('Something went wrong getting the inbox messages: '.var_export($e->getError(), true));
         } catch (Exception $e) {
             Log::info('heey2');
-            throw new Exception('Something went wrong getting the inbox messages' . var_export($e->getMessage(), true));
+            throw new Exception('Something went wrong getting the inbox messages'.var_export($e->getMessage(), true));
         }
 
         $writer = (new JsonSerializationWriterFactory)
@@ -93,17 +91,17 @@ class SyncInboxEmailService
             $rawBcc = $inboxMessage->bccRecipients ?? [];
 
             $to = array_map(
-                fn($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
+                fn ($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
                 $rawTo
             );
 
             $cc = array_map(
-                fn($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
+                fn ($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
                 $rawCc
             );
 
             $bcc = array_map(
-                fn($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
+                fn ($r) => ContactService::findOrCreate($r->emailAddress->address, $r->emailAddress->name ?? null),
                 $rawBcc
             );
 
@@ -128,7 +126,7 @@ class SyncInboxEmailService
             'outlook_message_id' => $inboxMessage->id,
             'outlook_conversation_id' => $inboxMessage->conversationId,
             'attachments' => $inboxMessage->hasAttachments,
-            'received_at' => $inboxMessage->crea
+            'received_at' => $inboxMessage->crea,
         ]);
 
         // attachments

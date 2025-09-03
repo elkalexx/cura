@@ -1,38 +1,21 @@
 <script setup lang="ts">
 import { Card } from '@/components/ui/card';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Message } from '@/types/mail';
 import { Link, router } from '@inertiajs/vue3';
-import {
-    createColumnHelper,
-    FlexRender,
-    getCoreRowModel,
-    useVueTable,
-} from '@tanstack/vue-table';
+import { createColumnHelper, FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
 
 // Lucide icons
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { format, parseISO } from 'date-fns';
-import { Forward, Inbox, RotateCw } from 'lucide-vue-next';
+import { Forward, RotateCw } from 'lucide-vue-next';
 import { h, ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 // NEW: Import the reusable modal component
-import ForwardMessageModal from "@/components/mails/ForwardMessageModal.vue";
+import ForwardMessageModal from '@/components/mails/ForwardMessageModal.vue';
 
 const props = defineProps<{
     messages: Message[];
@@ -44,9 +27,7 @@ const isForwardModalOpen = ref(false);
 const selectedMessage = ref<Message | null>(null);
 
 // NEW: Dummy data for predefined contacts. This could be passed as a prop from your controller.
-const predefinedContacts = ref([
-    { id: 'sk', email: 'sk@whc-uetersen.de', name: 'SK' },
-]);
+const predefinedContacts = ref([{ id: 'sk', email: 'sk@whc-uetersen.de', name: 'SK' }]);
 
 const isSyncing = ref(false);
 
@@ -73,11 +54,7 @@ const columns = [
                     class: 'flex items-center justify-between gap-x-4 text-[13px]',
                 },
                 [
-                    h(
-                        'span',
-                        { class: 'truncate min-w-0', title: subject },
-                        subject,
-                    ),
+                    h('span', { class: 'truncate min-w-0', title: subject }, subject),
                     h(
                         Link,
                         {
@@ -98,11 +75,7 @@ const columns = [
         cell: (ctx) => {
             const val = ctx.getValue();
             try {
-                return h(
-                    'span',
-                    { class: 'text-xs' },
-                    format(parseISO(val), 'dd.MM.yyyy HH:mm'),
-                );
+                return h('span', { class: 'text-xs' }, format(parseISO(val), 'dd.MM.yyyy HH:mm'));
             } catch {
                 return 'Invalid date';
             }
@@ -156,52 +129,30 @@ defineOptions({
 <template>
     <div class="m-4 flex items-center justify-between">
         <Button @click="syncInboxEmails" :disabled="isSyncing">
-            <RotateCw
-                v-if="isSyncing"
-                class="mr-3 -ml-1 h-5 w-5 animate-spin"
-            />
+            <RotateCw v-if="isSyncing" class="mr-3 -ml-1 h-5 w-5 animate-spin" />
             <span>{{ isSyncing ? 'Syncing...' : 'Sync Inbox Emails' }}</span>
         </Button>
     </div>
     <Card class="m-4 mt-0">
-        <Table
-            class="w-full [&_td]:px-1 [&_td]:py-0.5 [&_th]:px-1 [&_th]:py-0.5 [&_tr]:text-sm"
-        >
+        <Table class="w-full [&_td]:px-1 [&_td]:py-0.5 [&_th]:px-1 [&_th]:py-0.5 [&_tr]:text-sm">
             <TableHeader>
                 <TableRow v-for="hg in table.getHeaderGroups()" :key="hg.id">
-                    <TableHead
-                        v-for="header in hg.headers"
-                        :key="header.id"
-                        :colspan="header.colSpan"
-                    >
-                        <FlexRender
-                            v-if="!header.isPlaceholder"
-                            :render="header.column.columnDef.header"
-                            :props="header.getContext()"
-                        />
+                    <TableHead v-for="header in hg.headers" :key="header.id" :colspan="header.colSpan">
+                        <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
                     </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 <template v-if="table.getRowModel().rows.length">
-                    <TableRow
-                        v-for="row in table.getRowModel().rows"
-                        :key="row.id"
-                    >
-                        <TableCell
-                            v-for="cell in row.getVisibleCells()"
-                            :key="cell.id"
-                        >
+                    <TableRow v-for="row in table.getRowModel().rows" :key="row.id">
+                        <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                             <template v-if="cell.column.id === 'actions'">
                                 <div class="flex gap-2">
                                     <!-- Forward -->
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger as-child>
-                                                <Forward
-                                                    class="h-4 w-4 cursor-pointer hover:text-green-500"
-                                                    @click="forwardTo(row.original)"
-                                                />
+                                                <Forward class="h-4 w-4 cursor-pointer hover:text-green-500" @click="forwardTo(row.original)" />
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 <p>Forward to...</p>
@@ -211,24 +162,15 @@ defineOptions({
                                 </div>
                             </template>
 
-
                             <template v-else>
-                                <FlexRender
-                                    :render="cell.column.columnDef.cell"
-                                    :props="cell.getContext()"
-                                />
+                                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                             </template>
                         </TableCell>
                     </TableRow>
                 </template>
                 <template v-else>
                     <TableRow>
-                        <TableCell
-                            :colspan="columns.length"
-                            class="h-24 text-center"
-                        >
-                            No messages found.
-                        </TableCell>
+                        <TableCell :colspan="columns.length" class="h-24 text-center"> No messages found. </TableCell>
                     </TableRow>
                 </template>
             </TableBody>
@@ -242,9 +184,11 @@ defineOptions({
         v-model:open="isForwardModalOpen"
         :message-id="selectedMessage.id"
         :predefined-contacts="predefinedContacts"
-        @forward-success="() => {
-            // Optional: You could refresh data or perform another action on success
-            console.log(`Successfully initiated forward for message ID: ${selectedMessage?.id}`);
-        }"
+        @forward-success="
+            () => {
+                // Optional: You could refresh data or perform another action on success
+                console.log(`Successfully initiated forward for message ID: ${selectedMessage?.id}`);
+            }
+        "
     />
 </template>

@@ -8,7 +8,6 @@ use App\Services\MicrosoftService\ReplyEmailService;
 use App\Services\MicrosoftService\SyncInboxEmailService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -48,7 +47,7 @@ class MailController extends Controller
     public function reply(Request $request, Message $message, ReplyEmailService $replyEmailService)
     {
         $validated = $request->validate([
-            'body' => 'required|string'
+            'body' => 'required|string',
         ]);
 
         try {
@@ -56,7 +55,7 @@ class MailController extends Controller
         } catch (Exception $e) {
             report($e);
             throw ValidationException::withMessages([
-                'service' => 'Something went wrong replying to this email'
+                'service' => 'Something went wrong replying to this email',
             ]);
         }
     }
@@ -65,18 +64,18 @@ class MailController extends Controller
     {
 
         $validated = $request->validate([
-            'recipients'   => 'required_without:customEmail|array',
+            'recipients' => 'required_without:customEmail|array',
             'recipients.*' => 'email', // each item must be a valid email
-            'customEmail'  => 'required_without:recipients|nullable|email',
+            'customEmail' => 'required_without:recipients|nullable|email',
         ]);
 
         $emails = [];
 
-        if (!empty($validated['recipients']) && is_array($validated['recipients'])) {
+        if (! empty($validated['recipients']) && is_array($validated['recipients'])) {
             $emails = array_merge($emails, $validated['recipients']);
         }
 
-        if (!empty($validated['customEmail'])) {
+        if (! empty($validated['customEmail'])) {
             $emails[] = $validated['customEmail'];
         }
 
@@ -87,7 +86,7 @@ class MailController extends Controller
         } catch (Exception $e) {
             report($e);
             throw ValidationException::withMessages([
-                'service' => 'Something went wrong forwarding this email'
+                'service' => 'Something went wrong forwarding this email',
             ]);
         }
     }

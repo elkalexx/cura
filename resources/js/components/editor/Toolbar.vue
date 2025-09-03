@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import type { Editor } from '@tiptap/core';
 import type { Level } from '@tiptap/extension-heading';
@@ -18,8 +14,7 @@ const { editor } = props;
 const isLinkPopoverOpen = ref(false);
 const linkUrl = ref('');
 
-const isActive = (name: string, attrs?: { level: number }) =>
-    editor.isActive(name, attrs);
+const isActive = (name: string, attrs?: { level: number }) => editor.isActive(name, attrs);
 
 const toggle = (mark: 'bold' | 'italic' | 'underline') => {
     const chain = editor.chain().focus();
@@ -36,8 +31,7 @@ const toggle = (mark: 'bold' | 'italic' | 'underline') => {
     }
 };
 
-const setHeading = (level: Level) =>
-    editor.chain().focus().toggleHeading({ level }).run();
+const setHeading = (level: Level) => editor.chain().focus().toggleHeading({ level }).run();
 
 const handleLinkButtonClick = () => {
     if (editor.isActive('link')) {
@@ -49,12 +43,7 @@ const applyLink = () => {
     if (linkUrl.value === '') {
         editor.chain().focus().extendMarkRange('link').unsetLink().run();
     } else {
-        editor
-            .chain()
-            .focus()
-            .extendMarkRange('link')
-            .setLink({ href: linkUrl.value })
-            .run();
+        editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl.value }).run();
     }
     isLinkPopoverOpen.value = false;
     linkUrl.value = '';
@@ -79,27 +68,11 @@ watch(isLinkPopoverOpen, (isOpen) => {
 </script>
 
 <template>
-    <div
-        class="bg-muted/40 flex flex-wrap items-center gap-1 rounded-lg p-1 shadow-sm"
-    >
-        <Button
-            size="icon"
-            :variant="isActive('bold') ? 'default' : 'ghost'"
-            title="Bold"
-            @click="toggle('bold')"
-            type="button"
-            tabindex="1"
-        >
+    <div class="flex flex-wrap items-center gap-1 rounded-lg bg-muted/40 p-1 shadow-sm">
+        <Button size="icon" :variant="isActive('bold') ? 'default' : 'ghost'" title="Bold" @click="toggle('bold')" type="button" tabindex="1">
             <span class="leading-none font-bold">B</span>
         </Button>
-        <Button
-            size="icon"
-            :variant="isActive('italic') ? 'default' : 'ghost'"
-            title="Italic"
-            @click="toggle('italic')"
-            type="button"
-            tabindex="1"
-        >
+        <Button size="icon" :variant="isActive('italic') ? 'default' : 'ghost'" title="Italic" @click="toggle('italic')" type="button" tabindex="1">
             <span class="leading-none italic">I</span>
         </Button>
         <Button
@@ -153,9 +126,7 @@ watch(isLinkPopoverOpen, (isOpen) => {
                 <div class="grid gap-4">
                     <div class="space-y-2">
                         <h4 class="leading-none font-medium">Set Link</h4>
-                        <p class="text-muted-foreground text-sm">
-                            Enter the full URL for the link.
-                        </p>
+                        <p class="text-sm text-muted-foreground">Enter the full URL for the link.</p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <Input
@@ -166,23 +137,10 @@ watch(isLinkPopoverOpen, (isOpen) => {
                             @keydown.enter.prevent="applyLink"
                         />
                         <div class="flex justify-end gap-2">
-                            <Button
-                                v-if="editor.isActive('link')"
-                                type="button"
-                                variant="destructive"
-                                size="sm"
-                                @click="removeLink"
-                                tabindex="1"
-                            >
+                            <Button v-if="editor.isActive('link')" type="button" variant="destructive" size="sm" @click="removeLink" tabindex="1">
                                 Remove
                             </Button>
-                            <Button
-                                type="button"
-                                size="sm"
-                                @click="applyLink"
-                                tabindex="1"
-                                >Apply</Button
-                            >
+                            <Button type="button" size="sm" @click="applyLink" tabindex="1">Apply</Button>
                         </div>
                     </div>
                 </div>

@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Symfony\Component\Mime\Part\MessagePart;
 
 class MessageParticipant extends Model
 {
@@ -25,5 +23,4 @@ class MessageParticipant extends Model
     {
         return $this->belongsTo(Contact::class);
     }
-
 }

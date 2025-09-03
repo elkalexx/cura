@@ -19,7 +19,7 @@ class Message extends Model
         'outlook_conversation_id',
         'attachments',
         'x_g5_id',
-        'received_at'
+        'received_at',
     ];
 
     protected $appends = [
