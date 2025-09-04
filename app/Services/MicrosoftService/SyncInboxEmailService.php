@@ -59,8 +59,6 @@ class SyncInboxEmailService
 
         $inboxMessages = json_decode($writer->getSerializedContent());
 
-        dd($inboxMessages);
-
         if ($inboxMessages === null) {
             throw new \Exception('Something went wrong getting the inbox messages - inboxMessages is null');
         }
