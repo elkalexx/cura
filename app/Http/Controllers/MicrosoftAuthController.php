@@ -6,6 +6,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MicrosoftAuthController
 {
@@ -45,7 +46,9 @@ class MicrosoftAuthController
 
         $tokens = json_decode($result->body());
 
-        $expiresInTimestamp = now()->addSeconds($tokens->expires_in)->subHours(6)->getTimestamp();
+        Log::info(var_export($tokens, true));
+
+        $expiresInTimestamp = now()->addHours(2)->timestamp;
 
         Setting::updateOrCreate(
             ['path' => 'ms.access_token'],

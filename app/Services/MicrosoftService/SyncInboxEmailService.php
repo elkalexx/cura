@@ -46,10 +46,8 @@ class SyncInboxEmailService
                 ->wait();
         } catch (ApiException $e) {
             /** @phpstan-ignore-next-line */
-            Log::info('heey');
             throw new Exception('Something went wrong getting the inbox messages: '.var_export($e->getError(), true));
         } catch (Exception $e) {
-            Log::info('heey2');
             throw new Exception('Something went wrong getting the inbox messages'.var_export($e->getMessage(), true));
         }
 
@@ -124,7 +122,6 @@ class SyncInboxEmailService
             'outlook_message_id' => $inboxMessage->id,
             'outlook_conversation_id' => $inboxMessage->conversationId,
             'attachments' => $inboxMessage->hasAttachments,
-            'received_at' => $inboxMessage->crea,
         ]);
 
         // attachments
