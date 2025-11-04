@@ -9,7 +9,7 @@ class MicrosoftSyncInboxCommand extends Command
 {
     protected $signature = 'microsoft:sync-inbox';
 
-    protected $description = 'Command description';
+    protected $description = 'Syncs the inbox from Microsoft';
 
     public function handle(SyncInboxEmailService $emailService): void
     {

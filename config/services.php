@@ -43,4 +43,14 @@ return [
         'requestAccessTokenScope' => env('MICROSOFT_REQUEST_ACCESS_TOKEN_SCOPE'),
         'authAppScope' => env('MICROSOFT_AUTH_APP_SCOPE'),
     ],
+
+    'magento' => [
+        'apiRequestUrl' => env('MAGENTO_API_REQUEST_URL'),
+        'apiUsername' => env('MAGENTO_API_USERNAME'),
+        'apiPassword' => env('MAGENTO_API_PASSWORD'),
+    ],
+
+    'whc_supplier' => [
+        'file_directory' => env('WHC_SUPPLIER_FILE_DIRECTORY'),
+    ],
 ];

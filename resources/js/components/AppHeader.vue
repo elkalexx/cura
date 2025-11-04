@@ -19,7 +19,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { ChevronDown, MailOpen, Menu } from 'lucide-vue-next';
+import { ChevronDown, MailOpen, Menu, Package } from 'lucide-vue-next';
 import type { Component } from 'vue';
 import { computed, ref } from 'vue';
 
@@ -86,6 +86,11 @@ const mainNavItems: NavItem[] = [
         title: 'Mail',
         href: '/email',
         icon: MailOpen,
+    },
+    {
+        title: 'Offer Blog',
+        href: '/whc-supplier-blog',
+        icon: Package,
     },
 ];
 </script>

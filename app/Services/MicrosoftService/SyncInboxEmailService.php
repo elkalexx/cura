@@ -7,7 +7,6 @@ use App\Models\Message;
 use App\Services\ContactService;
 use App\Services\EnvelopeWriter;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Microsoft\Graph\Generated\Users\Item\MailFolders\Item\Messages\MessagesRequestBuilderGetRequestConfiguration;
 use Microsoft\Kiota\Abstractions\ApiException;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory;
