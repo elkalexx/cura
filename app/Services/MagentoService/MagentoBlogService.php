@@ -24,33 +24,37 @@ readonly class MagentoBlogService
             'url_key' => $urlKey,
         ];
 
-        if ($blog->has_file && ! empty($blog->file_path)) {
-
+        if ($blog->has_file) {
             $baseDir = config('services.whc_supplier.file_directory');
+            $baseDirReal = $baseDir ? realpath((string)$baseDir) : false;
 
-            if (! $baseDir) {
-                Log::error('WHC Supplier file directory is not configured. Cannot attach image for blog ID: '.$blog->id);
+            if (!$baseDirReal) {
+                Log::error("WHC Supplier file directory is not configured or invalid: '{$baseDir}'. Cannot attach image for blog ID: {$blog->id}");
             } else {
-                $fullFilePath = $baseDir.'/'.ltrim($blog->file_path, '/');
+                $baseDirReal = rtrim($baseDirReal, DIRECTORY_SEPARATOR);
 
-                if (file_exists($fullFilePath) && is_readable($fullFilePath)) {
+                $candidate = $baseDirReal . DIRECTORY_SEPARATOR . ltrim((string)$blog->file_path, DIRECTORY_SEPARATOR);
+                $fullFilePath = realpath($candidate);
+
+                if (!$fullFilePath || !str_starts_with($fullFilePath, $baseDirReal . DIRECTORY_SEPARATOR)) {
+                    Log::warning("Resolved file path escapes base dir or doesn't exist. Blog ID: {$blog->id}, candidate: {$candidate}, resolved: " . var_export($fullFilePath, true));
+                } elseif (!is_file($fullFilePath) || !is_readable($fullFilePath)) {
+                    Log::warning("File not a readable regular file for blog ID: {$blog->id}. Path: {$fullFilePath}");
+                } else {
                     try {
                         $fileContent = file_get_contents($fullFilePath);
-
-                        if ($fileContent !== false) {
-                            $blogData['featured_image_base64'] = base64_encode($fileContent);
+                        if ($fileContent === false) {
+                            Log::warning("Failed to read file content for blog post image: {$fullFilePath}");
                         } else {
-                            Log::warning('Failed to read file content for blog post image: '.$fullFilePath);
+                            $blogData['featured_image_base64'] = base64_encode($fileContent);
                         }
-                    } catch (\Exception $e) {
-                        Log::error('Something went wrong while reading file for blog ID: '.$blog->id.'. Error: '.$e->getMessage());
+                    } catch (\Throwable $e) {
+                        Log::error("Error reading file for blog ID: {$blog->id}. Path: {$fullFilePath}. Error: {$e->getMessage()}");
                     }
-                } else {
-                    Log::warning('File does not exist or is not readable for blog ID: '.$blog->id);
                 }
             }
-
         }
+
 
         try {
             return $this->magentoBlogService->createBlog($blogData);

@@ -16,7 +16,8 @@
         "pint": "./vendor/bin/sail php ./vendor/bin/pint",
         "phpstan": "./vendor/bin/sail php ./vendor/bin/phpstan analyse --memory-limit=2G",
         "php": "./vendor/bin/sail php",
-        "npm": "./vendor/bin/sail npm"
+        "npm": "./vendor/bin/sail npm",
+        "sk": "npm run build && zip -r ../curav2-src-$(date +%Y%m%d-%H%M).zip . -x '.env' -x 'public/hot' -x 'storage/logs/laravel.log'"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
