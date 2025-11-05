@@ -119,7 +119,6 @@ class WhcSupplierBlogController extends Controller
         }
 
         $fullPath = $baseDir.'/'.ltrim($path, '/');
-        dd($fullPath);
 
         if (! str_starts_with(realpath($fullPath), $baseDir)) {
             abort(403, 'Forbidden');
