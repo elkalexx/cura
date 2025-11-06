@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -46,6 +48,37 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'app_status' => [
+                'migrations_pending' => $this->areMigrationsPending(),
+            ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
         ];
+    }
+
+    private function areMigrationsPending()
+    {
+        try {
+            if (! Schema::hasTable('migrations')) {
+                return true;
+            }
+
+            $migrationFiles = glob(database_path('migrations/*.php'));
+
+            $ranMigrations = DB::table('migrations')->pluck('migration')->all();
+
+            foreach ($migrationFiles as $migrationFile) {
+                $migrationName = pathinfo($migrationFile, PATHINFO_FILENAME);
+                if (! in_array($migrationName, $ranMigrations)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            return true;
+        }
     }
 }

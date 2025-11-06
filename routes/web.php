@@ -3,6 +3,7 @@
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MicrosoftAuthController;
 use App\Http\Controllers\WhcSupplierBlogController;
+use App\Http\SystemController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/whc-files', [WhcSupplierBlogController::class, 'showFile'])->name('file-show');
     });
+
+    Route::post('/system/run-migrations', [SystemController::class, 'runMigration'])->name('system.run-migrations');
+
 });
 
 require __DIR__.'/auth.php';

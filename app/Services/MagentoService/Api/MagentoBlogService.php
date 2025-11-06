@@ -36,6 +36,7 @@ class MagentoBlogService
                 'short_content' => $data['short_content'],
                 'content' => $data['content'],
                 'url_key' => $data['url_key'],
+                'featured_image_base64' => $data['featured_image_base64'],
             ],
         ];
 

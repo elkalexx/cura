@@ -26,19 +26,19 @@ readonly class MagentoBlogService
 
         if ($blog->has_file) {
             $baseDir = config('services.whc_supplier.file_directory');
-            $baseDirReal = $baseDir ? realpath((string)$baseDir) : false;
+            $baseDirReal = $baseDir ? realpath((string) $baseDir) : false;
 
-            if (!$baseDirReal) {
+            if (! $baseDirReal) {
                 Log::error("WHC Supplier file directory is not configured or invalid: '{$baseDir}'. Cannot attach image for blog ID: {$blog->id}");
             } else {
                 $baseDirReal = rtrim($baseDirReal, DIRECTORY_SEPARATOR);
 
-                $candidate = $baseDirReal . DIRECTORY_SEPARATOR . ltrim((string)$blog->file_path, DIRECTORY_SEPARATOR);
+                $candidate = $baseDirReal.DIRECTORY_SEPARATOR.ltrim((string) $blog->file_path, DIRECTORY_SEPARATOR);
                 $fullFilePath = realpath($candidate);
 
-                if (!$fullFilePath || !str_starts_with($fullFilePath, $baseDirReal . DIRECTORY_SEPARATOR)) {
-                    Log::warning("Resolved file path escapes base dir or doesn't exist. Blog ID: {$blog->id}, candidate: {$candidate}, resolved: " . var_export($fullFilePath, true));
-                } elseif (!is_file($fullFilePath) || !is_readable($fullFilePath)) {
+                if (! $fullFilePath || ! str_starts_with($fullFilePath, $baseDirReal.DIRECTORY_SEPARATOR)) {
+                    Log::warning("Resolved file path escapes base dir or doesn't exist. Blog ID: {$blog->id}, candidate: {$candidate}, resolved: ".var_export($fullFilePath, true));
+                } elseif (! is_file($fullFilePath) || ! is_readable($fullFilePath)) {
                     Log::warning("File not a readable regular file for blog ID: {$blog->id}. Path: {$fullFilePath}");
                 } else {
                     try {
@@ -54,7 +54,6 @@ readonly class MagentoBlogService
                 }
             }
         }
-
 
         try {
             return $this->magentoBlogService->createBlog($blogData);
