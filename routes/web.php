@@ -38,4 +38,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::redirect('/', '/whc-supplier-blog');
+
 require __DIR__.'/auth.php';
