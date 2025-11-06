@@ -82,6 +82,46 @@ return [
             ]) : [],
         ],
 
+        'whc_org' => [
+            'driver' => 'mysql',
+            'url' => env('DB_WHC_ORG_URL'),
+            'host' => env('DB_WHC_ORG_HOST', '127.0.0.1'),
+            'port' => env('DB_WHC_ORG_HOST', '3306'),
+            'database' => env('DB_WHC_ORG_DATABASE'),
+            'username' => env('DB_WHC_ORG_USERNAME'),
+            'password' => env('DB_WHC_ORG_PASSWORD'),
+            'unix_socket' => env('DB_WHC_ORG_SOCKET', ''),
+            'charset' => env('DB_WHC_ORG_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_WHC_ORG_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_index' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+        'whc_task' => [
+            'driver' => 'mysql',
+            'url' => env('DB_WHC_TASK_URL'),
+            'host' => env('DB_WHC_TASK_HOST', '127.0.0.1'),
+            'port' => env('DB_WHC_TASK_HOST', '3306'),
+            'database' => env('DB_WHC_TASK_DATABASE'),
+            'username' => env('DB_WHC_TASK_USERNAME'),
+            'password' => env('DB_WHC_TASK_PASSWORD'),
+            'unix_socket' => env('DB_WHC_TASK_SOCKET', ''),
+            'charset' => env('DB_WHC_TASK_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_WHC_TASK_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_index' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

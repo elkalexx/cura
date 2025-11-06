@@ -11,6 +11,13 @@ export interface WhcSupplierBlog {
     updated_at_whc: string;
     created_at: string;
     updated_at: string;
+    is_approved: boolean;
+    is_brand: boolean;
+    is_b_group_appr: boolean;
+    is_sold: boolean;
+    offer_title: string;
+    supplier: string;
+    offer_ext_status: number;
 
     whc_supplier_offer_blog_magento: WhcSupplierOfferBlogMagento;
 }

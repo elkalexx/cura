@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/whc-supplier-blog/{blog}/activate-in-magento', [WhcSupplierBlogController::class, 'activateInMagento'])->name('activate-in-magento');
         Route::post('/whc-supplier-blog/{blog}/deactivate-in-magento', [WhcSupplierBlogController::class, 'deactivateInMagento'])->name('deactivate-in-magento');
         Route::post('/whc-supplier-blog/{blog}/update-in-magento', [WhcSupplierBlogController::class, 'updateInMagento'])->name('update-in-magento');
+        Route::post('/whc-supplier-blog/{blog}/update-as-sold', [WhcSupplierBlogController::class, 'updateBlogAsSold'])->name('update-as-sold');
 
         Route::get('/whc-files', [WhcSupplierBlogController::class, 'showFile'])->name('file-show');
     });

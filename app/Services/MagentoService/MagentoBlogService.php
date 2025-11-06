@@ -96,11 +96,15 @@ readonly class MagentoBlogService
 
     public function updateBlogPost(WhcSupplierOfferBlog $blog)
     {
+        $contentWrapper = '<div class="blog-post-content prose prose-neutral max-w-none">%s</div>';
+
+        $wrappedContent = sprintf($contentWrapper, $blog->description);
+
         $blogUpdateData = [
             'post_id' => $blog->whcSupplierOfferBlogMagento->magento_blog_id,
             'name' => $blog->title,
             'short_content' => '',
-            'content' => $blog->description,
+            'content' => $wrappedContent,
             'url_key' => $blog->whcSupplierOfferBlogMagento->url_key,
         ];
 
@@ -108,6 +112,32 @@ readonly class MagentoBlogService
             $this->magentoBlogService->updateBlogPost($blogUpdateData);
         } catch (\Exception $e) {
             Log::error('Something went wrong while updating blog post: '.$e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function updateBlogPostAsSold(WhcSupplierOfferBlog $blog)
+    {
+
+        $title = 'Already Sold: '.$blog->title;
+        $contentWrapper = '<div class="blog-post-content line-through prose prose-neutral max-w-none">%s</div>';
+        $wrappedContent = sprintf($contentWrapper, $blog->description);
+
+        $blogUpdateData = [
+            'post_id' => $blog->whcSupplierOfferBlogMagento->magento_blog_id,
+            'short_content' => '',
+            'name' => $title,
+            'content' => $wrappedContent,
+            'url_key' => $blog->whcSupplierOfferBlogMagento->url_key,
+        ];
+
+        try {
+            $this->magentoBlogService->updateBlogPost($blogUpdateData);
+        } catch (\Exception $e) {
+            Log::error('Something went wrong while marking the blog as sold: '.$e->getMessage());
 
             return false;
         }

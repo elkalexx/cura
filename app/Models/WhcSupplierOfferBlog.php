@@ -12,8 +12,18 @@ class WhcSupplierOfferBlog extends Model
         'title',
         'status',
         'description',
+        'has_file',
+        'file_name',
+        'file_path',
         'created_at_whc',
         'updated_at_whc',
+        'is_sold',
+        'offer_title',
+        'supplier',
+        'offer_ext_status',
+        'is_brand',
+        'is_b_group_appr',
+        'is_approved',
     ];
 
     public function whcSupplierOfferBlogMagento(): HasOne
