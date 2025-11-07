@@ -81,18 +81,25 @@ const activeDesktopIndicator = computed(
     () => (item: NavItem) => (isActive(item) ? 'absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white' : ''),
 );
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Mail',
-        href: '/email',
-        icon: MailOpen,
-    },
-    {
-        title: 'Offer Blog',
-        href: '/whc-supplier-blog',
-        icon: Package,
-    },
-];
+const mainNavItems = computed<NavItem[]>(() => {
+    const items: NavItem[] = [
+        {
+            title: 'Offer Blog',
+            href: '/whc-supplier-blog',
+            icon: Package,
+        },
+    ];
+
+    if (auth.value.user?.email === 'sk@whc-ueteren.de') {
+        items.unshift({
+            title: 'Mail',
+            href: '/email',
+            icon: MailOpen,
+        });
+    }
+
+    return items;
+});
 </script>
 
 <template>

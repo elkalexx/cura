@@ -45,6 +45,7 @@ const props = defineProps<{
         statuses: number[];
     };
     lastSynced: string | null;
+    whcSupplierUrl: string;
 }>();
 
 const columnHelper = createColumnHelper<WhcSupplierBlog>();
@@ -61,7 +62,19 @@ const columns = [
         header: 'Offer',
         size: 50,
         cell: (ctx) => {
-            return ctx.getValue();
+            const offerNo = ctx.getValue();
+            const whcSupplierUrl = props.whcSupplierUrl;
+
+            return h(
+                'a',
+                {
+                    href: whcSupplierUrl + '/offer/list?offerno=' + offerNo,
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                    class: 'text-blue-600 cursor-pointer',
+                },
+                offerNo,
+            );
         },
     }),
     columnHelper.accessor('offer_title', {
@@ -717,6 +730,16 @@ const lastSyncedInfo = computed(() => {
                 </Badge>
             </div>
 
+            <div
+                v-if="lastSyncedInfo.displayText"
+                :class="lastSyncedInfo.colorClass"
+                class="rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap"
+                title="Last sync time (Europe/Berlin)"
+            >
+                Last Sync: {{ lastSyncedInfo.displayText }}
+            </div>
+            <div v-else class="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">Never synced</div>
+
             <div class="flex items-center space-x-2">
                 <Switch id="quick-filter-whc-not-active-but-magento-active-toggle" v-model="onlyWhcNotActiveButMagentoActive" />
                 <Label
@@ -749,22 +772,10 @@ const lastSyncedInfo = computed(() => {
             </div>
         </div>
 
-        <div class="flex items-center gap-4">
-            <div
-                v-if="lastSyncedInfo.displayText"
-                :class="lastSyncedInfo.colorClass"
-                class="rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap"
-                title="Last sync time (Europe/Berlin)"
-            >
-                Last Sync: {{ lastSyncedInfo.displayText }}
-            </div>
-            <div v-else class="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">Never synced</div>
-
-            <Button @click="syncWhcSupplierOfferBlogTable" :disabled="isSyncing">
-                <RotateCw v-if="isSyncing" class="mr-3 -ml-1 h-5 w-5 animate-spin" />
-                <span>{{ isSyncing ? 'Syncing...' : 'Sync Whc Supplier Blogs' }}</span>
-            </Button>
-        </div>
+        <Button @click="syncWhcSupplierOfferBlogTable" :disabled="isSyncing">
+            <RotateCw v-if="isSyncing" class="mr-3 -ml-1 h-5 w-5 animate-spin" />
+            <span>{{ isSyncing ? 'Syncing...' : 'Sync Whc Supplier Blogs' }}</span>
+        </Button>
     </div>
 
     <Card class="m-4 rounded-md pt-0 pb-2">

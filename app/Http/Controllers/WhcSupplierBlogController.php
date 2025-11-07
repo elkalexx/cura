@@ -8,6 +8,7 @@ use App\Models\WhcSupplierOfferBlogMagento;
 use App\Services\MagentoService\MagentoBlogService;
 use App\Services\WhcSupplierOfferBlogService\WhcSupplierSyncOfferBlogTableService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -47,12 +48,15 @@ class WhcSupplierBlogController extends Controller
 
         $blogs = $query->get();
 
+        $whcSupplierUrl = Config::string('services.whc_supplier.url');
+
         return Inertia::render('whc_supplier_blogs/Index', [
             'whcSupplierBlogs' => $blogs,
             'fileUrlPrefix' => '/whc-files',
             'filters' => $request->only(['whc_not_active_but_magento_active', 'statuses', 'whc_active_but_whc_not_approved', 'whc_active_and_whc_approved']),
             'filterOptions' => ['statuses', []],
             'lastSynced' => $lastSynced,
+            'whcSupplierUrl' => $whcSupplierUrl,
         ]);
     }
 
@@ -83,7 +87,7 @@ class WhcSupplierBlogController extends Controller
         WhcSupplierOfferBlogMagento::create([
             'whc_supplier_offer_blog_id' => $blog->id,
             'magento_blog_id' => $createdBlog['post_id'],
-            'status' => 0,
+            'status' => 1,
             'url_key' => $urlKey,
             'created_magento_at' => now(),
         ]);

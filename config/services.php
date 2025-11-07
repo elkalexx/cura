@@ -52,5 +52,6 @@ return [
 
     'whc_supplier' => [
         'file_directory' => env('WHC_SUPPLIER_FILE_DIRECTORY'),
+        'url' => env('WHC_SUPPLIER_URL'),
     ],
 ];
