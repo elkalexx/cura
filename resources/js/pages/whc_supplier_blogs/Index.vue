@@ -68,7 +68,7 @@ const columns = [
             return h(
                 'a',
                 {
-                    href: whcSupplierUrl + '/offer/list?offerno=' + offerNo,
+                    href: whcSupplierUrl + '/offers/list?offerno=' + offerNo,
                     target: '_blank',
                     rel: 'noopener noreferrer',
                     class: 'text-blue-600 cursor-pointer',
